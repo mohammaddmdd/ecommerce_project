@@ -1,0 +1,40 @@
+version = 1
+disable_existing_loggers = false
+
+[handlers.ConsoleHandler]
+level = "INFO"
+class = "logging.StreamHandler"
+
+[handlers.SageHandler]
+level = "INFO"
+class = "logging.handlers.RotatingFileHandler"
+filename = "logs/app.log"
+maxBytes = 104857600
+backupCount = 5
+formatter = "SageFormatter"
+
+[handlers.AuthHandler]
+level = "INFO"
+class = "logging.handlers.RotatingFileHandler"
+filename = "logs/auth.log"
+maxBytes = 104857600
+backupCount = 10
+formatter = "AuthFormatter"
+
+[formatters.SageFormatter]
+format = "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
+datefmt = "%Y-%m-%d %H:%M:%S"
+
+[formatters.AuthFormatter]
+format = "%(levelname)s %(asctime)s - %(message)s"
+datefmt = "%Y-%m-%d %H:%M:%S"
+
+[loggers.sage]
+handlers = [ "SageHandler",]
+level = "INFO"
+propagate = false
+
+[loggers.auth]
+handlers = [ "AuthHandler",]
+level = "INFO"
+propagate = false
