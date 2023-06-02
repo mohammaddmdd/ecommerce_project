@@ -1,0 +1,17 @@
+[report]
+omit =
+    ./venv/*
+    *tests*
+    *apps.py
+    *manage.py
+    *__init__.py
+    *migrations*
+    *asgi*
+    *wsgi*
+    *admin.py
+    *urls.py
+    *views*
+    *painless*
+    *api*
+    *admin*
+    *real_warehouse_data_generator.py
