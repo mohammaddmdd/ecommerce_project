@@ -23,10 +23,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from painless.api.exceptions import BadRequest
 from painless.api.renderers import DataStatusMessage_Renderer
 from account.api.serializers import UserSerializer
-from basket.api.serializers import (
-    CartSerializer,
-    PackCartSerializer
-)
+
 
 User = get_user_model()
 
@@ -63,24 +60,3 @@ class UserViewSet(
                 raise exceptions.NotFound()
         return obj
 
-    @action(detail=True, methods=['GET', 'POST'])
-    def carts(self, request, phone_number=None, *args, **kwargs):
-        user = self.get_object()
-        user_cart = user.get_cart()
-        payload = request.data
-
-        if request.method == 'GET':
-            serializer = CartSerializer(user_cart, many=False)
-            status_code = status.HTTP_200_OK
-        elif request.method == 'POST':
-            pack_serializer = PackCartSerializer(data=payload, many=True)
-            pack_serializer.is_valid(raise_exception=True)
-            pack_serializer.save()
-            serializer = CartSerializer(user_cart, many=False)
-            status_code = status.HTTP_201_CREATED
-        else:
-            raise exceptions.MethodNotAllowed()
-        return Response(
-            serializer.data,
-            status=status_code
-        )
